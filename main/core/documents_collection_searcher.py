@@ -71,7 +71,10 @@ class DocumentCollectionSearcher:
         result = {}
 
         for result_number in range(0, len(indexes[0])):
-            mapping = index_document_mapping[str(indexes[0][result_number])]                   
+            chunk_id = str(indexes[0][result_number])
+            mapping = index_document_mapping.get(chunk_id)
+            if mapping is None:
+                raise ValueError(f"Chunk ID '{chunk_id}' not found in index_document_mapping for collection '{self.collection_name}'. Index may be out of sync with mapping file. Usually it happens when collection update happened but MCP tool was not restarted, so please try to restart the MCP tool.")
 
             if mapping["documentId"] not in result:
                 document = self.__get_document(mapping["documentPath"])
