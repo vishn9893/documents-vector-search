@@ -6,8 +6,9 @@
   - [Collection structure](#collection-structure)
   - [Indexers configuration](#indexers-configuration)
 - [Setup](#setup)
-  - [Local setup](#local-setup)
-  - [Docker setup](#docker-setup)
+  - [Env setup](#env-setup)
+    - [Local setup](#local-setup)
+    - [Docker setup](#docker-setup)
   - [Authentication](#authentication)
   - [Create collection for Confluence](#create-collection-for-confluence)
   - [Create collection for Jira](#create-collection-for-jira)
@@ -48,7 +49,7 @@ More context: [Medium article](https://medium.com/@shnax0210/mcp-tool-for-vector
 ## Updates
 
 - Check [UPDATES.md](UPDATES.md) for major updates. 
-- Some minor updates can be not added the file, so they can be found only in got history.
+- Some minor updates can be not added the file, so they can be found only in git history.
 
 ## How it works
 
@@ -86,20 +87,24 @@ See `./main/core/documents_collection_creator.py` for creation/update details an
 ### Indexers configuration
 
 When you create a collection, you can specify a list of `indexers` like: `--indexers "indexer_ChromaDb__embeddings_sentence-transformers_slash_all-MiniLM-L6-v2", "indexer_SqlLiteBM25"`. The indexers define what vector/keyword databases and embedding models are used. Database and embedding model are separated by `__`. For example:
-- `indexer_ChromaDb__embeddings_sentence-transformers_slash_all-MiniLM-L6-v2` means that `ChromaDb` is used as vector database and [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is used as the embedding model. You can use any embedding model from next [list](https://huggingface.co/models?pipeline_tag=sentence-similarity&library=sentence-transformers&sort=trending), you only needs to add prefix `embeddings_` and replace slash symbols with `_slash_`. For example, if you want to use ChromaDb with [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) embedder model, indexer name shoud be: `indexer_ChromaDb__embeddings_BAAI_slash_bge-m3`;
+- `indexer_ChromaDb__embeddings_sentence-transformers_slash_all-MiniLM-L6-v2` means that `ChromaDb` is used as vector database and [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is used as the embedding model. You can use any embedding model from next [list](https://huggingface.co/models?pipeline_tag=sentence-similarity&library=sentence-transformers&sort=trending), you only need to add prefix `embeddings_` and replace slash symbols with `_slash_`. For example, if you want to use ChromaDb with [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3) embedder model, indexer name should be: `indexer_ChromaDb__embeddings_BAAI_slash_bge-m3`;
 - `indexer_SqlLiteBM25` means that SqlLite BM25 is used as search engine.
 
 You can define as many indexers as you want, their search results will be combined by Reciprocal Rank Fusion.
 
 ## Setup
 
-### Local setup
+### Env setup
+
+Either `uv` or `docker` can be used to run the project.
+
+#### Local setup
 
 1. Clone the repository
 2. Install [uv](https://docs.astral.sh/uv/)
 3. Run `uv sync` in the project root
 
-### Docker setup
+#### Docker setup
 
 A `Dockerfile` is included for running the tool without installing Python or uv locally.
 
